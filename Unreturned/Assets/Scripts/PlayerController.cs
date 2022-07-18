@@ -9,8 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 10;
     public float horizontalInput;
     public float verticalInput;
-    public float gravMode = 0;
-    public bool spaceHeld;
+    public int gravMode = 0;
     public bool gravOnCooldown;
 
     // Start is called before the first frame update
@@ -26,42 +25,26 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         Vector3 velocity;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            spaceHeld = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            spaceHeld = false;
-        }
-
-        if (spaceHeld) {
+        if (Input.GetKey(KeyCode.Space)) {
             if (!gravOnCooldown) {
-                if (verticalInput < 0)
+                if (verticalInput > 0 && gravMode != 2 && horizontalInput == 0)
                 {
-                    gravMode = 0;
                     gravOnCooldown = true;
                     StartCoroutine(GravityCooldown());
-                    StartCoroutine(GravRotate(0));
-                } else if (verticalInput > 0)
+                    StartCoroutine(GravRotate(180 + 90 * gravMode, gravMode));
+                    gravMode = (gravMode + 2) % 4;
+                } else if (horizontalInput < 0 && gravMode != 3 && verticalInput == 0)
                 {
-                    gravMode = 2;
                     gravOnCooldown = true;
                     StartCoroutine(GravityCooldown());
-                    StartCoroutine(GravRotate(180));
-                } else if (horizontalInput < 0)
+                    StartCoroutine(GravRotate(-90 + 90 * gravMode, gravMode));
+                    gravMode = (gravMode + 3) % 4;
+                } else if (horizontalInput > 0 && gravMode != 1 && verticalInput == 0)
                 {
-                    gravMode = 3;
                     gravOnCooldown = true;
                     StartCoroutine(GravityCooldown());
-                    StartCoroutine(GravRotate(-90));
-                } else if (horizontalInput > 0)
-                {
-                    gravMode = 1;
-                    gravOnCooldown = true;
-                    StartCoroutine(GravityCooldown());
-                    StartCoroutine(GravRotate(90));
+                    StartCoroutine(GravRotate(90 + 90 * gravMode, gravMode));
+                    gravMode = (gravMode + 1) % 4;
                 }
             }
         } else {
@@ -117,42 +100,46 @@ public class PlayerController : MonoBehaviour
         gravOnCooldown = false;
     }
 
-    IEnumerator GravRotate(int endRotation)
+    IEnumerator GravRotate(int endRotation, int oldMode)
     {
         if (endRotation < 0) {
             endRotation += 360;
         }
 
-        switch (gravMode)
+        int currentRot = 0;
+
+        switch (oldMode)
         {
             case 0:
-                velocity = playerRb.velocity;
-                velocity.x = (speed * horizontalInput);
-                playerRb.velocity = velocity;
+                currentRot = 0;
                 break;
             case 2:
-                velocity = playerRb.velocity;
-                velocity.x = (speed * horizontalInput * -1);
-                playerRb.velocity = velocity;
+                currentRot = 180;
                 break;
             case 3:
-                velocity = playerRb.velocity;
-                velocity.y = (speed * horizontalInput * -1);
-                playerRb.velocity = velocity;
+                currentRot = 270;
                 break;
             case 1:
-                velocity = playerRb.velocity;
-                velocity.y = (speed * horizontalInput);
-                playerRb.velocity = velocity;
+                currentRot = 90;
                 break;
         }
 
-        float rotChange = (endRotation - currentRot);
+        int rotChange = (endRotation - currentRot);
 
-        //Debug.Log(endRotation + " " + currentRot + " " + rotChange);
+        if (rotChange > 180)
+        {
+            rotChange -= 360;
+        }
 
-        for (int i = 0; i < 30; i++) {
-            transform.Rotate(0,0,rotChange / 30);
+        if (rotChange < -180)
+        {
+            rotChange += 360;
+        }
+
+        Debug.Log(endRotation + " " + currentRot + " " + rotChange);
+
+        for (int i = 0; i < 10; i++) {
+            transform.Rotate(0,0,rotChange / 10);
             yield return new WaitForSeconds(0.05f);
         }
         transform.eulerAngles = new Vector3(0, 0, endRotation);
