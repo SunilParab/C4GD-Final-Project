@@ -13,11 +13,17 @@ public class PlayerController : MonoBehaviour
     public bool gravOnCooldown;
     public float camRotationTime = 0.5f;
     public int camRotationIntervals = 40;
+    public GameObject spawnPoint;
+    public GameObject mainCamera;
+    public bool facedLeft;
+    private SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        spawnPoint = GameObject.Find("SpawnPoint");
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -76,6 +82,14 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        if (facedLeft && horizontalInput > 0)
+        {
+            facedLeft = false;
+            spriteRenderer.flipX = false;
+        } else if (!facedLeft && horizontalInput < 0) {
+            facedLeft = true;
+            spriteRenderer.flipX = true;
+        }
         
         switch (gravMode)
         {
@@ -154,13 +168,32 @@ public class PlayerController : MonoBehaviour
             rotChange += 360;
         }
 
-        Debug.Log(endRotation + " " + currentRot + " " + rotChange);
-
         for (int i = 0; i < camRotationIntervals; i++) {
             transform.Rotate(0,0,rotChange / camRotationIntervals);
             yield return new WaitForSeconds(camRotationTime/camRotationIntervals);
         }
         transform.eulerAngles = new Vector3(0, 0, endRotation);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("hi");
+        if (other.gameObject.CompareTag("KillZone"))
+        {
+            Debug.Log("ur tashsda");
+            StartCoroutine(Respawn());
+        }
+    }
+
+    IEnumerator Respawn()
+    {
+        playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
+        yield return new WaitForSeconds(1);
+        playerRb.constraints = RigidbodyConstraints2D.None;
+        playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        gravMode = 0;
+        transform.position = spawnPoint.transform.position;
+        transform.rotation = spawnPoint.transform.rotation;
     }
 
 }
