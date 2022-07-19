@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public int camRotationIntervals = 40;
     public GameObject spawnPoint;
     public GameObject mainCamera;
+    public GameObject weapon;
     public bool facedLeft;
     private SpriteRenderer spriteRenderer;
 
@@ -86,9 +87,11 @@ public class PlayerController : MonoBehaviour
         {
             facedLeft = false;
             spriteRenderer.flipX = false;
+            //weapon.spriteRenderer.flipX = false;
         } else if (!facedLeft && horizontalInput < 0) {
             facedLeft = true;
             spriteRenderer.flipX = true;
+            //weapon.spriteRenderer.flipX = true;
         }
         
         switch (gravMode)
@@ -177,10 +180,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("hi");
         if (other.gameObject.CompareTag("KillZone"))
         {
-            Debug.Log("ur tashsda");
             StartCoroutine(Respawn());
         }
     }
