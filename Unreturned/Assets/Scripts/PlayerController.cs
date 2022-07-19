@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float verticalInput;
     public int gravMode = 0;
     public bool gravOnCooldown;
+    public float camRotationTime = 0.5f;
+    public int camRotationIntervals = 40;
 
     // Start is called before the first frame update
     void Start()
@@ -99,13 +101,13 @@ public class PlayerController : MonoBehaviour
         switch (mainDir)
         {
             case "Left":
-                return (Input.GetKey(KeyCode.LeftArrow) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow)));
+                return ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)));
             case "Right":
-                return (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow)));
+                return ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)));
             case "Up":
-                return (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)));
+                return ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)));
             case "Down":
-                return (Input.GetKey(KeyCode.DownArrow) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)));
+                return ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)));
         }
         return true;
     }
@@ -154,9 +156,9 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log(endRotation + " " + currentRot + " " + rotChange);
 
-        for (int i = 0; i < 10; i++) {
-            transform.Rotate(0,0,rotChange / 10);
-            yield return new WaitForSeconds(0.05f);
+        for (int i = 0; i < camRotationIntervals; i++) {
+            transform.Rotate(0,0,rotChange / camRotationIntervals);
+            yield return new WaitForSeconds(camRotationTime/camRotationIntervals);
         }
         transform.eulerAngles = new Vector3(0, 0, endRotation);
     }
