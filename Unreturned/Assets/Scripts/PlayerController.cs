@@ -27,19 +27,19 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space)) {
             if (!gravOnCooldown) {
-                if (verticalInput > 0 && gravMode != 2 && horizontalInput == 0)
+                if (checkDirs("Up"))
                 {
                     gravOnCooldown = true;
                     StartCoroutine(GravityCooldown());
                     StartCoroutine(GravRotate(180 + 90 * gravMode, gravMode));
                     gravMode = (gravMode + 2) % 4;
-                } else if (horizontalInput < 0 && gravMode != 3 && verticalInput == 0)
+                } else if (checkDirs("Left"))
                 {
                     gravOnCooldown = true;
                     StartCoroutine(GravityCooldown());
                     StartCoroutine(GravRotate(-90 + 90 * gravMode, gravMode));
                     gravMode = (gravMode + 3) % 4;
-                } else if (horizontalInput > 0 && gravMode != 1 && verticalInput == 0)
+                } else if (checkDirs("Right"))
                 {
                     gravOnCooldown = true;
                     StartCoroutine(GravityCooldown());
@@ -94,9 +94,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    bool checkDirs(string mainDir)
+    {
+        switch (mainDir)
+        {
+            case "Left":
+                return (Input.GetKey(KeyCode.LeftArrow) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow)));
+            case "Right":
+                return (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow)));
+            case "Up":
+                return (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)));
+            case "Down":
+                return (Input.GetKey(KeyCode.DownArrow) && !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)));
+        }
+        return true;
+    }
+
     IEnumerator GravityCooldown()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         gravOnCooldown = false;
     }
 
