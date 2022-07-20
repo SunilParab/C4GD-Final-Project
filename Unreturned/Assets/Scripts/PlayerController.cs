@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public bool gravOnCooldown;
     public float camRotationTime = 0.5f;
     public int camRotationIntervals = 40;
-    public GameObject spawnPoint;
     public GameObject mainCamera;
     public GameObject weapon;
     public bool facedLeft;
@@ -26,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float cannonSpeed = 20;
     private Vector3 dirToMouse;
     public List<GameObject> colliders = new List<GameObject>();
+    public List<GameObject> walls = new List<GameObject>();
     public bool cannonLaunch;
     public bool cannonOnCooldown;
     public float cannonCooldown;
@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
-        spawnPoint = GameObject.Find("SpawnPoint");
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -265,6 +264,7 @@ public class PlayerController : MonoBehaviour
             if (!colliders.Contains(other.gameObject)) 
             { 
                 colliders.Add(other.gameObject);
+                walls.Add(other.gameObject);
             }
             gravCharged = true;
             cannonCharged = true;
@@ -276,10 +276,14 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             colliders.Remove(other.gameObject);
+            walls.Remove(other.gameObject);
         }
         if (!(colliders.Count > 0))
         {
             gravCharged = false;
+        }
+        if (!(walls.Count > 0))
+        {
             cannonCharged = false;
         }
     }
@@ -304,16 +308,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1);
         Scene thisScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(thisScene.name);
-        /*
-        playerRb.constraints = RigidbodyConstraints2D.None;
-        playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        gravMode = 0;
-        transform.position = spawnPoint.transform.position;
-        transform.rotation = spawnPoint.transform.rotation;
-        alive = true;
-        animator.SetBool("Alive", true);
-        weaponAnimator.SetBool("Hide", false);
-        */
     }
 
     IEnumerator CannonActive()
