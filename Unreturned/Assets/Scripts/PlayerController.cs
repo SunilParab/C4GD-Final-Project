@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.CompareTag("Spring"))
         {
             playerRb.velocity = Vector3.zero;
-            playerRb.AddForce(other.gameObject.transform.up * 80, ForceMode2D.Impulse);
+            playerRb.AddForce(other.gameObject.transform.up * other.gameObject.GetComponent<SpringController>().springConstant, ForceMode2D.Impulse);
             colliders.Add(other.gameObject);
             StartCoroutine(tempGrav(other.gameObject));
         }
