@@ -18,6 +18,14 @@ public class PlayerController : MonoBehaviour
     public bool facedLeft;
     private SpriteRenderer spriteRenderer;
     public bool alive = true;
+    public bool gravCharged;
+    public float maxSpeed;
+    public bool touchedOther;
+    public float gravCoef;
+    public bool inCannon;
+    public float cannonSpeed = 20;
+    public Vector3 dirToMouse;
+    private List<Collision2D> colliders = new List<Collision2D>();
 
     // Start is called before the first frame update
     void Start()
@@ -28,92 +36,108 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (alive) {
-            horizontalInput = Input.GetAxis("Horizontal");
-            Vector3 velocity;
-
-            if (Input.GetKey(KeyCode.Space)) {
-                if (!gravOnCooldown) {
-                    if (checkDirs("Up"))
+        if (alive)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                inCannon = true;
+                Vector3 posInScreen = Camera.main.WorldToScreenPoint(transform.position);
+                dirToMouse = (Input.mousePosition - posInScreen);
+                dirToMouse.Normalize();
+            }
+            if (inCannon)
+            {
+                transform.Translate(dirToMouse * cannonSpeed);
+            }
+            else
+            {
+                horizontalInput = Input.GetAxis("Horizontal");
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    if (!gravOnCooldown && gravCharged)
                     {
-                        gravOnCooldown = true;
-                        StartCoroutine(GravityCooldown());
-                        StartCoroutine(GravRotate(180 + 90 * gravMode, gravMode));
-                        gravMode = (gravMode + 2) % 4;
-                    } else if (checkDirs("Left"))
-                    {
-                        gravOnCooldown = true;
-                        StartCoroutine(GravityCooldown());
-                        StartCoroutine(GravRotate(-90 + 90 * gravMode, gravMode));
-                        gravMode = (gravMode + 3) % 4;
-                    } else if (checkDirs("Right"))
-                    {
-                        gravOnCooldown = true;
-                        StartCoroutine(GravityCooldown());
-                        StartCoroutine(GravRotate(90 + 90 * gravMode, gravMode));
-                        gravMode = (gravMode + 1) % 4;
+                        if (checkDirs("Up"))
+                        {
+                            gravOnCooldown = true;
+                            gravCharged = false;
+                            playerRb.velocity = Vector3.zero;
+                            StartCoroutine(GravityCooldown());
+                            StartCoroutine(GravRotate(180 + 90 * gravMode, gravMode));
+                            gravMode = (gravMode + 2) % 4;
+                        }
+                        else if (checkDirs("Left"))
+                        {
+                            gravOnCooldown = true;
+                            gravCharged = false;
+                            playerRb.velocity = Vector3.zero;
+                            StartCoroutine(GravityCooldown());
+                            StartCoroutine(GravRotate(-90 + 90 * gravMode, gravMode));
+                            gravMode = (gravMode + 3) % 4;
+                        }
+                        else if (checkDirs("Right"))
+                        {
+                            gravOnCooldown = true;
+                            gravCharged = false;
+                            playerRb.velocity = Vector3.zero;
+                            StartCoroutine(GravityCooldown());
+                            StartCoroutine(GravRotate(90 + 90 * gravMode, gravMode));
+                            gravMode = (gravMode + 1) % 4;
+                        }
                     }
                 }
-            } else {
+                else
+                {
+                    switch (gravMode)
+                    {
+                        case 0:
+                            transform.Translate(transform.right * Time.deltaTime * speed * horizontalInput);
+                            break;
+                        case 2:
+                            transform.Translate(transform.right * Time.deltaTime * speed * horizontalInput * -1);
+                            break;
+                        case 3:
+                            transform.Translate(transform.up * Time.deltaTime * speed * horizontalInput);
+                            break;
+                        case 1:
+                            transform.Translate(transform.up * Time.deltaTime * speed * horizontalInput * -1);
+                            break;
+                    }
+                }
+
+                if (facedLeft && horizontalInput > 0)
+                {
+                    facedLeft = false;
+                    spriteRenderer.flipX = false;
+                    weapon.GetComponent<SpriteRenderer>().flipX = false;
+                    weapon.GetComponent<BoxCollider2D>().offset = new Vector2(weapon.GetComponent<BoxCollider2D>().offset.x * -1, weapon.GetComponent<BoxCollider2D>().offset.y);
+                }
+                else if (!facedLeft && horizontalInput < 0)
+                {
+                    facedLeft = true;
+                    spriteRenderer.flipX = true;
+                    weapon.GetComponent<SpriteRenderer>().flipX = true;
+                    weapon.GetComponent<BoxCollider2D>().offset = new Vector2(weapon.GetComponent<BoxCollider2D>().offset.x * -1, weapon.GetComponent<BoxCollider2D>().offset.y);
+                }
+
                 switch (gravMode)
                 {
                     case 0:
-                        velocity = playerRb.velocity;
-                        velocity.x = (speed * horizontalInput);
-                        playerRb.velocity = velocity;
+                        playerRb.AddForce(Physics.gravity * 1 * gravCoef);
                         break;
                     case 2:
-                        velocity = playerRb.velocity;
-                        velocity.x = (speed * horizontalInput * -1);
-                        playerRb.velocity = velocity;
+                        playerRb.AddForce(Physics.gravity * -1 * gravCoef);
                         break;
                     case 3:
-                        velocity = playerRb.velocity;
-                        velocity.y = (speed * horizontalInput * -1);
-                        playerRb.velocity = velocity;
+                        playerRb.AddForce(Quaternion.Euler(0, 0, -90) * Physics.gravity * gravCoef);
                         break;
                     case 1:
-                        velocity = playerRb.velocity;
-                        velocity.y = (speed * horizontalInput);
-                        playerRb.velocity = velocity;
+                        playerRb.AddForce(Quaternion.Euler(0, 0, 90) * Physics.gravity * gravCoef);
                         break;
                 }
-
-            }
-
-            if (facedLeft && horizontalInput > 0)
-            {
-                facedLeft = false;
-                spriteRenderer.flipX = false;
-                weapon.GetComponent<SpriteRenderer>().flipX = false;
-                weapon.GetComponent<BoxCollider2D>().offset = new Vector2(weapon.GetComponent<BoxCollider2D>().offset.x * -1, weapon.GetComponent<BoxCollider2D>().offset.y);
-            }
-            else if (!facedLeft && horizontalInput < 0) {
-                facedLeft = true;
-                spriteRenderer.flipX = true;
-                weapon.GetComponent<SpriteRenderer>().flipX = true;
-                weapon.GetComponent<BoxCollider2D>().offset = new Vector2(weapon.GetComponent<BoxCollider2D>().offset.x * -1, weapon.GetComponent<BoxCollider2D>().offset.y);
-            }
-        
-            switch (gravMode)
-            {
-                case 0:
-                    playerRb.AddForce(Physics.gravity * 1);
-                    break;
-                case 2:
-                    playerRb.AddForce(Physics.gravity * -1);
-                    break;
-                case 3:
-                    playerRb.AddForce(Quaternion.Euler(0, 0, -90) * Physics.gravity);
-                    break;
-                case 1:
-                    playerRb.AddForce(Quaternion.Euler(0, 0, 90) * Physics.gravity);
-                    break;
             }
         }
-
     }
 
     bool checkDirs(string mainDir)
@@ -134,8 +158,12 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator GravityCooldown()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(camRotationTime);
         gravOnCooldown = false;
+        if (colliders.Count > 0)
+        {
+            gravCharged = true;
+        }
     }
 
     IEnumerator GravRotate(int endRotation, int oldMode)
@@ -187,6 +215,13 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Respawn());
         }
+        else if (other.gameObject.CompareTag("Spring"))
+        {
+            playerRb.velocity = Vector3.zero;
+            playerRb.AddForce(other.gameObject.transform.up * 80, ForceMode2D.Impulse);
+            StopCoroutine("tempGrav");
+            StartCoroutine("tempGrav");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -194,6 +229,31 @@ public class PlayerController : MonoBehaviour
         if (alive && other.gameObject.CompareTag("Enemy"))
         {
             StartCoroutine(Respawn());
+        } else if (other.gameObject.CompareTag("Ground"))
+        {
+            if (!colliders.Contains(other)) 
+            { 
+                colliders.Add(other);
+            }
+            gravCharged = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            colliders.Remove(other);
+        }
+    }
+
+    IEnumerator tempGrav()
+    {
+        gravCharged = true;
+        yield return new WaitForSeconds(1);
+        if (!(colliders.Count > 0))
+        {
+            gravCharged = false;
         }
     }
 
