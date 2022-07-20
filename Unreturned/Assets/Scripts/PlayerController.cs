@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -301,6 +302,9 @@ public class PlayerController : MonoBehaviour
         weaponAnimator.SetBool("Hide", true);
         playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(1);
+        Scene thisScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(thisScene.name);
+        /*
         playerRb.constraints = RigidbodyConstraints2D.None;
         playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
         gravMode = 0;
@@ -309,6 +313,7 @@ public class PlayerController : MonoBehaviour
         alive = true;
         animator.SetBool("Alive", true);
         weaponAnimator.SetBool("Hide", false);
+        */
     }
 
     IEnumerator CannonActive()
