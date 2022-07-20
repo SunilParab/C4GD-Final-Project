@@ -20,12 +20,11 @@ public class PlayerController : MonoBehaviour
     public bool alive = true;
     public bool gravCharged;
     public float maxSpeed;
-    public bool touchedOther;
     public float gravCoef;
     public bool inCannon;
     public float cannonSpeed = 20;
     private Vector3 dirToMouse;
-    private List<Collision2D> colliders = new List<Collision2D>();
+    public List<GameObject> colliders = new List<GameObject>();
     public bool cannonLaunch;
     public bool cannonOnCooldown;
     public float cannonCooldown;
@@ -233,8 +232,8 @@ public class PlayerController : MonoBehaviour
         {
             playerRb.velocity = Vector3.zero;
             playerRb.AddForce(other.gameObject.transform.up * 80, ForceMode2D.Impulse);
-            StopCoroutine("tempGrav");
-            StartCoroutine("tempGrav");
+            colliders.Add(other.gameObject);
+            StartCoroutine(tempGrav(other.gameObject));
         }
     }
 
@@ -251,9 +250,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Respawn());
         } else if (other.gameObject.CompareTag("Ground"))
         {
-            if (!colliders.Contains(other)) 
+            if (!colliders.Contains(other.gameObject)) 
             { 
-                colliders.Add(other);
+                colliders.Add(other.gameObject);
             }
             gravCharged = true;
             cannonCharged = true;
@@ -264,7 +263,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            colliders.Remove(other);
+            colliders.Remove(other.gameObject);
         }
         if (!(colliders.Count > 0))
         {
@@ -273,10 +272,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator tempGrav()
+    IEnumerator tempGrav(GameObject spring)
     {
         gravCharged = true;
         yield return new WaitForSeconds(1);
+        colliders.Remove(spring);
         if (!(colliders.Count > 0))
         {
             gravCharged = false;
