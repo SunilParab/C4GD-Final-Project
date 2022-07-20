@@ -211,6 +211,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (inCannon)
+        {
+            inCannon = false;
+        }
         if (alive && other.gameObject.CompareTag("KillZone"))
         {
             StartCoroutine(Respawn());
@@ -226,6 +230,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (inCannon)
+        {
+            inCannon = false;
+        }
         if (alive && other.gameObject.CompareTag("Enemy"))
         {
             StartCoroutine(Respawn());
@@ -244,6 +252,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             colliders.Remove(other);
+        }
+        if (!(colliders.Count > 0))
+        {
+            gravCharged = false;
         }
     }
 
