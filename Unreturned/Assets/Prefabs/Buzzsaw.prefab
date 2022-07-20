@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8838746228686908926}
   - component: {fileID: 8838746228686908927}
-  - component: {fileID: 8838746228686908925}
   - component: {fileID: 6544891955636611616}
+  - component: {fileID: 2341212455943392122}
   m_Layer: 6
   m_Name: Buzzsaw
   m_TagString: KillZone
@@ -84,32 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &8838746228686908925
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8838746228686908922}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 1.6878533, y: 1.8558716}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12, y: 12}
-    newSize: {x: 0.64, y: 0.64}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.0772886, y: 3.9695342}
-  m_EdgeRadius: 0
 --- !u!114 &6544891955636611616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +101,19 @@ MonoBehaviour:
   directionMod: 1
   endDelay: 0
   move: 1
+--- !u!58 &2341212455943392122
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838746228686908922}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.7073607, y: 1.8285413}
+  serializedVersion: 2
+  m_Radius: 2.037943
