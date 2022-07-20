@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public bool cannonOnCooldown;
     public float cannonCooldown;
     public bool cannonCharged;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        animator.SetBool("Walking", false);
         if (alive)
         {
             if (Input.GetAxis("Fire2") > 0 && !inCannon && !cannonOnCooldown && cannonCharged)
@@ -61,6 +63,10 @@ public class PlayerController : MonoBehaviour
             else
             {
                 horizontalInput = Input.GetAxis("Horizontal");
+                if (horizontalInput != 0)
+                {
+                    animator.SetBool("Walking", true);
+                }
                 if (Input.GetKey(KeyCode.Space))
                 {
                     if (!gravOnCooldown && gravCharged)
@@ -222,6 +228,7 @@ public class PlayerController : MonoBehaviour
         {
             inCannon = false;
             cannonLaunch = false;
+            animator.SetBool("CannonShot", false);
             StartCoroutine(CannonCooldown());
         }
         if (alive && other.gameObject.CompareTag("KillZone"))
@@ -243,6 +250,7 @@ public class PlayerController : MonoBehaviour
         {
             inCannon = false;
             cannonLaunch = false;
+            animator.SetBool("CannonShot", false);
             StartCoroutine(CannonCooldown());
         }
         if (alive && other.gameObject.CompareTag("Enemy"))
@@ -286,6 +294,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Respawn()
     {
         alive = false;
+        animator.SetBool("Alive", false);
         playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(1);
         playerRb.constraints = RigidbodyConstraints2D.None;
@@ -294,22 +303,29 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPoint.transform.position;
         transform.rotation = spawnPoint.transform.rotation;
         alive = true;
+        animator.SetBool("Alive", true);
     }
 
     IEnumerator CannonActive()
     {
+        animator.SetBool("CannonStart", true);
         yield return new WaitForSeconds(1);
         if (Input.GetAxis("Fire2") > 0)
         {
-            while(Input.GetAxis("Fire2") > 0)
+            animator.SetBool("CannonCharged", true);
+            animator.SetBool("CannonStart", false);
+            while (Input.GetAxis("Fire2") > 0)
             {
                 yield return new WaitForSeconds(0.01f);
             }
             cannonLaunch = true;
+            animator.SetBool("CannonCharged", false);
+            animator.SetBool("CannonShot", true);
         } else
         {
             inCannon = false;
         }
+        animator.SetBool("CannonStart", false);
     }
 
     IEnumerator CannonCooldown()

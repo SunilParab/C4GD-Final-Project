@@ -5,10 +5,10 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
 
-    public PlayerController player;
     public bool swinging;
     public bool cooldown;
     public BoxCollider2D hitbox;
+    public Animator animator;
    
     // Start is called before the first frame update
     void Start()
@@ -24,6 +24,7 @@ public class WeaponController : MonoBehaviour
         {
             cooldown = true;
             swinging = true;
+            animator.SetBool("Swinging", true);
             hitbox.enabled = true;
             StartCoroutine(Swing());
         }
@@ -41,6 +42,7 @@ public class WeaponController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         swinging = false;
+        animator.SetBool("Swinging", false);
         hitbox.enabled = false;
         yield return new WaitForSeconds(0.5f);
         cooldown = false;
