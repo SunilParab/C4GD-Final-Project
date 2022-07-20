@@ -3031,6 +3031,10 @@ PrefabInstance:
       propertyPath: cannonCooldown
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5655535251424901662, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
+      propertyPath: weaponAnimator
+      value: 
+      objectReference: {fileID: 1466622368}
     - target: {fileID: 5655535251424901663, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
       propertyPath: m_Name
       value: Player

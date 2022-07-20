@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public float cannonCooldown;
     public bool cannonCharged;
     public Animator animator;
+    public Animator weaponAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -229,6 +230,7 @@ public class PlayerController : MonoBehaviour
             inCannon = false;
             cannonLaunch = false;
             animator.SetBool("CannonShot", false);
+            weaponAnimator.SetBool("Hide", false);
             StartCoroutine(CannonCooldown());
         }
         if (alive && other.gameObject.CompareTag("KillZone"))
@@ -251,6 +253,7 @@ public class PlayerController : MonoBehaviour
             inCannon = false;
             cannonLaunch = false;
             animator.SetBool("CannonShot", false);
+            weaponAnimator.SetBool("Hide", false);
             StartCoroutine(CannonCooldown());
         }
         if (alive && other.gameObject.CompareTag("Enemy"))
@@ -295,6 +298,7 @@ public class PlayerController : MonoBehaviour
     {
         alive = false;
         animator.SetBool("Alive", false);
+        weaponAnimator.SetBool("Hide", true);
         playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(1);
         playerRb.constraints = RigidbodyConstraints2D.None;
@@ -304,10 +308,12 @@ public class PlayerController : MonoBehaviour
         transform.rotation = spawnPoint.transform.rotation;
         alive = true;
         animator.SetBool("Alive", true);
+        weaponAnimator.SetBool("Hide", false);
     }
 
     IEnumerator CannonActive()
     {
+        weaponAnimator.SetBool("Hide", true);
         animator.SetBool("CannonStart", true);
         yield return new WaitForSeconds(1);
         if (Input.GetAxis("Fire2") > 0)
@@ -324,6 +330,7 @@ public class PlayerController : MonoBehaviour
         } else
         {
             inCannon = false;
+            weaponAnimator.SetBool("Hide", false);
         }
         animator.SetBool("CannonStart", false);
     }
