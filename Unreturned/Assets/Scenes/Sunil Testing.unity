@@ -864,11 +864,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &562781544 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5655535251424901653, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-  m_PrefabInstance: {fileID: 5655535250610297593}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &636805471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,30 +1674,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1466622363 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 225540629, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-  m_PrefabInstance: {fileID: 5655535250610297593}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1466622368
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466622363}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c771b7cba5a520f49a0a1621515d1d23, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1551958402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,17 +2930,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 225540633, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1466622368}
     - target: {fileID: 5655535251424901650, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5655535251424901650, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5655535251424901650, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3011,30 +2974,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5655535251424901651, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5655535251424901653, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 7ebc2c9aa4174f249ae1430f065974a7, type: 2}
-    - target: {fileID: 5655535251424901662, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: speed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5655535251424901662, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 562781544}
-    - target: {fileID: 5655535251424901662, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: cannonCooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5655535251424901662, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
-      propertyPath: weaponAnimator
-      value: 
-      objectReference: {fileID: 1466622368}
     - target: {fileID: 5655535251424901663, guid: 47ed2c3322598034ca15b09dec59176e, type: 3}
       propertyPath: m_Name
       value: Player

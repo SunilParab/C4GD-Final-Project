@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 225540631}
   - component: {fileID: 225540632}
   - component: {fileID: 225540633}
+  - component: {fileID: 1466622368}
   m_Layer: 7
   m_Name: Weapon
   m_TagString: Untagged
@@ -70,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -506898913
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 07474c53358cbb24db5fde1d59e1ccab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -122,10 +123,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba623bad43467642aa2926d24106fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   swinging: 0
   cooldown: 0
   hitbox: {fileID: 0}
+  animator: {fileID: 1466622368}
+--- !u!95 &1466622368
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225540629}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c771b7cba5a520f49a0a1621515d1d23, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5655535251424901663
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,8 +220,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -506898913
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 970866e021733e24994397f3f51f56d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -286,11 +306,16 @@ MonoBehaviour:
   alive: 1
   gravCharged: 0
   maxSpeed: 25
-  touchedOther: 0
   gravCoef: 8
   inCannon: 0
   cannonSpeed: 1
-  dirToMouse: {x: 0, y: 0, z: 0}
+  colliders: []
+  cannonLaunch: 0
+  cannonOnCooldown: 0
+  cannonCooldown: 5
+  cannonCharged: 0
+  animator: {fileID: 5655535251424901653}
+  weaponAnimator: {fileID: 1466622368}
 --- !u!95 &5655535251424901653
 Animator:
   serializedVersion: 3
@@ -301,7 +326,7 @@ Animator:
   m_GameObject: {fileID: 5655535251424901663}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7ebc2c9aa4174f249ae1430f065974a7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
