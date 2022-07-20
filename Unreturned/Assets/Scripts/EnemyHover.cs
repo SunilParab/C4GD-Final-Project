@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPatrol : MonoBehaviour
+public class EnemyHover : MonoBehaviour
 {
     private float maxDist;
     private float minDist;
@@ -16,8 +16,8 @@ public class EnemyPatrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxDist = transform.position.x + maxDistChange;
-        minDist = transform.position.x - maxDistChange;
+        maxDist = transform.position.y + maxDistChange;
+        minDist = transform.position.y - maxDistChange;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -26,20 +26,18 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (move)
         {
-            transform.Translate(Vector3.right * Time.deltaTime * speed * directionMod);
-            if (transform.position.x >= maxDist)
+            transform.Translate(Vector3.up * Time.deltaTime * speed * directionMod);
+            if (transform.position.y >= maxDist)
             {
                 directionMod *= -1;
-                spriteRenderer.flipX = !spriteRenderer.flipX;
-                transform.position = new Vector3(maxDist, transform.position.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x, maxDist, transform.position.z);
                 move = false;
                 StartCoroutine(Wait());
             }
-            else if (transform.position.x <= minDist)
+            else if (transform.position.y <= minDist)
             {
                 directionMod *= -1;
-                spriteRenderer.flipX = !spriteRenderer.flipX;
-                transform.position = new Vector3(minDist, transform.position.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x, minDist, transform.position.z);
                 move = false;
                 StartCoroutine(Wait());
             }
