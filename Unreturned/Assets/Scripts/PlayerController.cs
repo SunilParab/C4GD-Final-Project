@@ -24,8 +24,12 @@ public class PlayerController : MonoBehaviour
     public float gravCoef;
     public bool inCannon;
     public float cannonSpeed = 20;
-    public Vector3 dirToMouse;
+    private Vector3 dirToMouse;
     private List<Collision2D> colliders = new List<Collision2D>();
+    public bool cannonLaunch;
+    public bool cannonOnCooldown;
+    public float cannonCooldown;
+    public bool cannonCharged;
 
     // Start is called before the first frame update
     void Start()
@@ -40,16 +44,20 @@ public class PlayerController : MonoBehaviour
     {
         if (alive)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetAxis("Fire2") > 0 && !inCannon && !cannonOnCooldown && cannonCharged)
             {
                 inCannon = true;
                 Vector3 posInScreen = Camera.main.WorldToScreenPoint(transform.position);
                 dirToMouse = (Input.mousePosition - posInScreen);
                 dirToMouse.Normalize();
+                StartCoroutine(CannonActive());
             }
-            if (inCannon)
+            if (inCannon || cannonLaunch)
             {
-                transform.Translate(dirToMouse * cannonSpeed);
+                if (cannonLaunch)
+                {
+                    transform.Translate(dirToMouse * cannonSpeed);
+                }
             }
             else
             {
@@ -214,6 +222,8 @@ public class PlayerController : MonoBehaviour
         if (inCannon)
         {
             inCannon = false;
+            cannonLaunch = false;
+            StartCoroutine(CannonCooldown());
         }
         if (alive && other.gameObject.CompareTag("KillZone"))
         {
@@ -233,6 +243,8 @@ public class PlayerController : MonoBehaviour
         if (inCannon)
         {
             inCannon = false;
+            cannonLaunch = false;
+            StartCoroutine(CannonCooldown());
         }
         if (alive && other.gameObject.CompareTag("Enemy"))
         {
@@ -244,6 +256,7 @@ public class PlayerController : MonoBehaviour
                 colliders.Add(other);
             }
             gravCharged = true;
+            cannonCharged = true;
         }
     }
 
@@ -256,6 +269,7 @@ public class PlayerController : MonoBehaviour
         if (!(colliders.Count > 0))
         {
             gravCharged = false;
+            cannonCharged = false;
         }
     }
 
@@ -280,6 +294,29 @@ public class PlayerController : MonoBehaviour
         transform.position = spawnPoint.transform.position;
         transform.rotation = spawnPoint.transform.rotation;
         alive = true;
+    }
+
+    IEnumerator CannonActive()
+    {
+        yield return new WaitForSeconds(1);
+        if (Input.GetAxis("Fire2") > 0)
+        {
+            while(Input.GetAxis("Fire2") > 0)
+            {
+                yield return new WaitForSeconds(0.01f);
+            }
+            cannonLaunch = true;
+        } else
+        {
+            inCannon = false;
+        }
+    }
+
+    IEnumerator CannonCooldown()
+    {
+        cannonOnCooldown = true;
+        yield return new WaitForSeconds(cannonCooldown);
+        cannonOnCooldown = false;
     }
 
 }

@@ -20,7 +20,7 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !cooldown)
+        if (Input.GetAxis("Fire1") > 0 && !cooldown)
         {
             cooldown = true;
             swinging = true;
