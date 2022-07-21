@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Portal"))
         {
-            //other.gameObject.GetComponent<LevelPortal>().NextLevel("Work");
+            other.gameObject.GetComponent<LevelPortal>().NextLevel();
         }
         else if (other.gameObject.CompareTag("Spring"))
         {

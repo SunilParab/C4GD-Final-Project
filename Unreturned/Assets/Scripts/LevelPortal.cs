@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelPortal : MonoBehaviour
-
-    //public string nextScene;
-
 {
+
+    public string nextScene;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +20,9 @@ public class LevelPortal : MonoBehaviour
         
     }
 
-    void NextLevel()
+    public void NextLevel()
     {
-        //SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene(nextScene);
     }
 
 }
