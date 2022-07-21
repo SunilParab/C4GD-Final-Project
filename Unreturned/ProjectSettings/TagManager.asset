@@ -51,3 +51,6 @@ TagManager:
   - name: Other
     uniqueID: 3788068383
     locked: 0
+  - name: KillGrid
+    uniqueID: 1964104949
+    locked: 0
