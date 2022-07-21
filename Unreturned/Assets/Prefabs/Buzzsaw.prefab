@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8838746228686908927}
   - component: {fileID: 6544891955636611616}
   - component: {fileID: 2341212455943392122}
+  - component: {fileID: 433969229}
   m_Layer: 6
   m_Name: Buzzsaw
   m_TagString: KillZone
@@ -114,6 +115,25 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.7073607, y: 1.8285413}
+  m_Offset: {x: -0.02772212, y: 0.32129145}
   serializedVersion: 2
-  m_Radius: 2.037943
+  m_Radius: 2.0752537
+--- !u!95 &433969229
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838746228686908922}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4c8d53d7e3b53254997b439e41abe277, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

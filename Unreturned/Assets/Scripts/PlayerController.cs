@@ -266,6 +266,7 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(other.gameObject.transform.up * other.gameObject.GetComponent<SpringController>().springConstant, ForceMode2D.Impulse);
             colliders.Add(other.gameObject);
             StartCoroutine(tempGrav(other.gameObject));
+            other.gameObject.GetComponent<SpringController>().animator.Play("Work"); ;
         }
     }
 
