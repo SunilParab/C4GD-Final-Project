@@ -49,9 +49,32 @@ public class PlayerController : MonoBehaviour
             if (Input.GetAxis("Fire2") > 0 && !inCannon && !cannonOnCooldown && cannonCharged)
             {
                 inCannon = true;
-                Vector3 posInScreen = Camera.main.WorldToScreenPoint(transform.position);
+                /*
+                Vector3 posInScreen = Camera.main.ScreenToWorldPoint(transform.position);
                 dirToMouse = (Input.mousePosition - posInScreen);
+                */
+
+                Vector3 posInScreen = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+                dirToMouse = (posInScreen - transform.position);
+                dirToMouse = new Vector3(dirToMouse.x, dirToMouse.y, 0);
                 dirToMouse.Normalize();
+
+                switch (gravMode)
+                {
+                    case 0:
+                        dirToMouse *= 1;
+                        break;
+                    case 2:
+                        dirToMouse *= -1;
+                        break;
+                    case 3:
+                        dirToMouse = Quaternion.Euler(0, 0, -90) * dirToMouse * -1;
+                        break;
+                    case 1:
+                        dirToMouse = Quaternion.Euler(0, 0, 90) * dirToMouse * -1;
+                        break;
+                }
+
                 StartCoroutine(CannonActive());
             }
             if (inCannon || cannonLaunch)
@@ -326,6 +349,17 @@ public class PlayerController : MonoBehaviour
             cannonLaunch = true;
             animator.SetBool("CannonCharged", false);
             animator.SetBool("CannonShot", true);
+
+            yield return new WaitForSeconds(0.2f);
+            if ((colliders.Count > 0))
+            {
+                inCannon = false;
+                cannonLaunch = false;
+                animator.SetBool("CannonShot", false);
+                weaponAnimator.SetBool("Hide", false);
+                StartCoroutine(CannonCooldown());
+            }
+
         } else
         {
             inCannon = false;
