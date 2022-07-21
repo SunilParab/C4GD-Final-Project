@@ -32,12 +32,14 @@ public class PlayerController : MonoBehaviour
     public bool cannonCharged;
     public Animator animator;
     public Animator weaponAnimator;
+    private AudioSource playerAudio;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -121,6 +123,7 @@ public class PlayerController : MonoBehaviour
                             StartCoroutine(GravityCooldown());
                             StartCoroutine(GravRotate(180 + 90 * gravMode, gravMode));
                             gravMode = (gravMode + 2) % 4;
+                            playerAudio.Play(0);
                         }
                         else if (checkDirs("Left"))
                         {
@@ -130,6 +133,7 @@ public class PlayerController : MonoBehaviour
                             StartCoroutine(GravityCooldown());
                             StartCoroutine(GravRotate(-90 + 90 * gravMode, gravMode));
                             gravMode = (gravMode + 3) % 4;
+                            playerAudio.Play(0);
                         }
                         else if (checkDirs("Right"))
                         {
@@ -139,6 +143,7 @@ public class PlayerController : MonoBehaviour
                             StartCoroutine(GravityCooldown());
                             StartCoroutine(GravRotate(90 + 90 * gravMode, gravMode));
                             gravMode = (gravMode + 1) % 4;
+                            playerAudio.Play(0);
                         }
                     }
                 }
