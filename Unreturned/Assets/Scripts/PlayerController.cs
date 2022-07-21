@@ -283,13 +283,17 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Respawn());
         }
+        else if (other.gameObject.CompareTag("Portal"))
+        {
+            //other.gameObject.GetComponent<LevelPortal>().NextLevel("Work");
+        }
         else if (other.gameObject.CompareTag("Spring"))
         {
             playerRb.velocity = Vector3.zero;
             playerRb.AddForce(other.gameObject.transform.up * other.gameObject.GetComponent<SpringController>().springConstant, ForceMode2D.Impulse);
             colliders.Add(other.gameObject);
             StartCoroutine(tempGrav(other.gameObject));
-            other.gameObject.GetComponent<SpringController>().animator.Play("Work"); ;
+            other.gameObject.GetComponent<SpringController>().animator.Play("Work");
         }
     }
 
