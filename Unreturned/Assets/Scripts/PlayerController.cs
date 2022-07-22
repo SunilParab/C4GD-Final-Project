@@ -74,15 +74,38 @@ public class PlayerController : MonoBehaviour
                         dirToMouse = Quaternion.Euler(0, 0, 90) * dirToMouse * -1;
                         break;
                 }
+                //Debug.DrawRay(transform.position + dirToMouse, dirToMouse, Color.green);
 
                 StartCoroutine(CannonActive());
             }
             if (inCannon || cannonLaunch)
             {
+                //Debug.DrawRay(transform.position + dirToMouse, dirToMouse, Color.green);
                 if (cannonLaunch)
                 {
-                    
-                    RaycastHit2D front = Physics2D.Raycast(transform.position + Vector3.right, Vector3.right, 1);
+
+                    Vector3 dirToMouse2 = dirToMouse;
+
+                    switch (gravMode)
+                    {
+                        case 0:
+                            dirToMouse2 *= 1;
+                            break;
+                        case 2:
+                            dirToMouse2 *= -1;
+                            break;
+                        case 3:
+                            dirToMouse2 = Quaternion.Euler(0, 0, -90) * dirToMouse * -1 * - 1;
+                            break;
+                        case 1:
+                            dirToMouse2 = Quaternion.Euler(0, 0, 90) * dirToMouse * -1 * - 1;
+                            break;
+                    }
+
+                    RaycastHit2D front = Physics2D.Raycast(transform.position + dirToMouse2, dirToMouse2, 0.5f);
+
+                    //Debug.DrawRay(transform.position + dirToMouse2, dirToMouse2, Color.green);
+
                     if (front)
                     {
                         if (front.collider.gameObject.CompareTag("Ground"))
@@ -120,6 +143,7 @@ public class PlayerController : MonoBehaviour
                             dirToMouse = Quaternion.Euler(0, 0, 90) * dirToMouse * -1;
                             break;
                     }
+                    //Debug.DrawRay(transform.position + dirToMouse, dirToMouse, Color.green);
                 }
             }
             else
