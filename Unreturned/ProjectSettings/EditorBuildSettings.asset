@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GobletsOfGiants.unity
     guid: bf405f5dd48c66c40b9eebaa5c3c1693
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: 639edcb5e4fbbcc4b98ad0a17b7b7404
   m_configObjects: {}

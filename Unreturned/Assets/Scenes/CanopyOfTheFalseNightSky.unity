@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 207216067}
   - component: {fileID: 207216066}
   - component: {fileID: 207216065}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Killzone (1)
   m_TagString: KillZone
   m_Icon: {fileID: 0}
@@ -8104,7 +8104,7 @@ GameObject:
   - component: {fileID: 1479529254}
   - component: {fileID: 1479529253}
   - component: {fileID: 1479529252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Killzone (2)
   m_TagString: KillZone
   m_Icon: {fileID: 0}
@@ -8213,7 +8213,7 @@ GameObject:
   - component: {fileID: 1479879457}
   - component: {fileID: 1479879456}
   - component: {fileID: 1479879455}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Killzone (3)
   m_TagString: KillZone
   m_Icon: {fileID: 0}
@@ -8427,7 +8427,7 @@ GameObject:
   - component: {fileID: 1767794629}
   - component: {fileID: 1767794628}
   - component: {fileID: 1767794627}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Killzone
   m_TagString: KillZone
   m_Icon: {fileID: 0}
