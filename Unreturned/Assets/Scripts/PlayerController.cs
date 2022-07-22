@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public Animator weaponAnimator;
     private AudioSource playerAudio;
+    public GameObject gravIndicator;
+    public GameObject cannonIndicator;
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +119,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (checkDirs("Up"))
                         {
+                            gravIndicator.GetComponent<SpriteRenderer>().color = Color.red;
                             gravOnCooldown = true;
                             gravCharged = false;
                             playerRb.velocity = Vector3.zero;
@@ -127,6 +130,7 @@ public class PlayerController : MonoBehaviour
                         }
                         else if (checkDirs("Left"))
                         {
+                            gravIndicator.GetComponent<SpriteRenderer>().color = Color.red;
                             gravOnCooldown = true;
                             gravCharged = false;
                             playerRb.velocity = Vector3.zero;
@@ -137,6 +141,7 @@ public class PlayerController : MonoBehaviour
                         }
                         else if (checkDirs("Right"))
                         {
+                            gravIndicator.GetComponent<SpriteRenderer>().color = Color.red;
                             gravOnCooldown = true;
                             gravCharged = false;
                             playerRb.velocity = Vector3.zero;
@@ -223,6 +228,10 @@ public class PlayerController : MonoBehaviour
         if (colliders.Count > 0)
         {
             gravCharged = true;
+        }
+        if (gravCharged)
+        {
+            gravIndicator.GetComponent<SpriteRenderer>().color = Color.green;
         }
     }
 
@@ -319,6 +328,13 @@ public class PlayerController : MonoBehaviour
             }
             gravCharged = true;
             cannonCharged = true;
+            if (!gravOnCooldown)
+            {
+                gravIndicator.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+            if (!cannonOnCooldown) {
+                cannonIndicator.GetComponent<SpriteRenderer>().color = Color.green;
+            }
         }
     }
 
@@ -332,21 +348,28 @@ public class PlayerController : MonoBehaviour
         if (!(colliders.Count > 0))
         {
             gravCharged = false;
+            gravIndicator.GetComponent<SpriteRenderer>().color = Color.red;
         }
         if (!(walls.Count > 0))
         {
             cannonCharged = false;
+            cannonIndicator.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 
     IEnumerator tempGrav(GameObject spring)
     {
         gravCharged = true;
+        if (!gravOnCooldown)
+        {
+            gravIndicator.GetComponent<SpriteRenderer>().color = Color.green;
+        }
         yield return new WaitForSeconds(1);
         colliders.Remove(spring);
         if (!(colliders.Count > 0))
         {
             gravCharged = false;
+            gravIndicator.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 
@@ -377,6 +400,7 @@ public class PlayerController : MonoBehaviour
             cannonLaunch = true;
             animator.SetBool("CannonCharged", false);
             animator.SetBool("CannonShot", true);
+            cannonIndicator.GetComponent<SpriteRenderer>().color = Color.red;
 
             yield return new WaitForSeconds(0.2f);
             if ((colliders.Count > 0))
@@ -401,6 +425,10 @@ public class PlayerController : MonoBehaviour
         cannonOnCooldown = true;
         yield return new WaitForSeconds(cannonCooldown);
         cannonOnCooldown = false;
+        if (cannonCharged)
+        {
+            cannonIndicator.GetComponent<SpriteRenderer>().color = Color.green;
+        }
     }
 
 }
