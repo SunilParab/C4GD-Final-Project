@@ -2515,6 +2515,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.306
       objectReference: {fileID: 0}
+    - target: {fileID: 8841711587683618895, guid: 80c03a31383cd3a48ac23eff947a04ec, type: 3}
+      propertyPath: nextScene
+      value: GobletsOfGiants
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80c03a31383cd3a48ac23eff947a04ec, type: 3}
 --- !u!1 &652755401
