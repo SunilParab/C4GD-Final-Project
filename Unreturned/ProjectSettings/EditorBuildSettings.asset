@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScreen.unity
     guid: ce746b04b0038f14cb0f684468209136
   - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 7d14d57dcf4941f4b905153e448b68ac
+  - enabled: 1
     path: Assets/Scenes/CapitalOfTheUnreturned.unity
     guid: f2c1a1a644b06494cab38ea5fe8abe60
   - enabled: 1

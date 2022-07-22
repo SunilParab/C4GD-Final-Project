@@ -81,7 +81,23 @@ public class PlayerController : MonoBehaviour
             {
                 if (cannonLaunch)
                 {
-                    transform.Translate(dirToMouse * cannonSpeed);
+                    
+                    RaycastHit2D front = Physics2D.Raycast(transform.position + Vector3.right, Vector3.right, 1);
+                    if (front)
+                    {
+                        if (front.collider.gameObject.CompareTag("Ground"))
+                        {
+                            inCannon = false;
+                            cannonLaunch = false;
+                            animator.SetBool("CannonShot", false);
+                            weaponAnimator.SetBool("Hide", false);
+                            StartCoroutine(CannonCooldown());
+                        }
+                    }
+
+                    if (cannonLaunch) {
+                        transform.Translate(dirToMouse * cannonSpeed);
+                    }
                 } else
                 {
                     Vector3 posInScreen = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
